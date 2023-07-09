@@ -2,7 +2,7 @@
 //  arkit_experimentUITests.swift
 //  arkit-experimentUITests
 //
-//  Created by Masashi Yamazaki on 2023/07/09.
+//  Created by applejxd on 2023/07/09.
 //
 
 import XCTest

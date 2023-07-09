@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  arkit-experiment
 //
-//  Created by Masashi Yamazaki on 2023/07/09.
+//  Created by applejxd on 2023/07/09.
 //
 
 import UIKit
@@ -11,12 +11,13 @@ import SwiftUI
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    // ? 付きは Optional な型
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        // Create the SwiftUI view that provides the window contents.
+        // ContentView.swift に従って SwiftUI ビューを作成
         let contentView = ContentView()
 
         // Use a UIHostingController as window root view controller.
