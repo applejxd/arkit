@@ -94,8 +94,9 @@ struct ARViewContainer: UIViewRepresentable {
         }
         
         func session(_ session: ARSession, didUpdate frame: ARFrame) {
-            // cf. https://rockyshikoku.medium.com/get-the-location-of-the-device-with-arkit-4e4c54831fbc
+            // cf. https://developer.apple.com/documentation/arkit/arcamera/2866108-transform
             let transform: simd_float4 = frame.camera.transform.columns.3
+            // cf. https://rockyshikoku.medium.com/get-the-location-of-the-device-with-arkit-4e4c54831fbc
             let devicePosition: simd_float3 = simd_float3(x: transform.x, y: transform.y, z: transform.z)
             self.cam_position = devicePosition
         }
