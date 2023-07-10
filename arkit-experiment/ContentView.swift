@@ -15,10 +15,10 @@ struct ContentView : View {
     var body: some View {
         VStack {
             // 画面をエッジまで拡張
-            ARViewContainer(cam_position: $cam_position).edgesIgnoringSafeArea(.all)
+            ARViewContainer(cam_position: $cam_position).edgesIgnoringSafeArea(.all).frame(height: 600)
             
-//            LabelView(cam_position: $cam_position).padding()
-            Text("(\(self.cam_position.x),\(self.cam_position.y),\(self.cam_position.z)").padding()
+            LabelView(cam_position: $cam_position).padding(.leading, 150)
+//            Text("(\(self.cam_position.x),\(self.cam_position.y),\(self.cam_position.z)").padding()
         }
     }
 }
@@ -27,15 +27,21 @@ struct LabelView: UIViewRepresentable {
     @Binding var cam_position: simd_float3
     
     func makeUIView(context: Context) -> UILabel {
-        let labelView:UILabel = UILabel()       // UIKitのビュー
-        labelView.text = "0,0,0" // テキストを格納
-        labelView.textAlignment = NSTextAlignment.center
-        
+        let labelView:UILabel = UILabel()
+        // 改行を可能に
+        labelView.numberOfLines = 0
+        // 左寄せ
+        labelView.textAlignment = NSTextAlignment.left
+        labelView.text = "x=0,\ny=0\nz=0"
+
         return labelView // ビューを返す
     }
 
     func updateUIView(_ uiView: UILabel, context: Context) {
-        uiView.text = "(\(cam_position.x),\(cam_position.y),\(cam_position.z)"
+        let x_str = String(format: "%.3f", cam_position.x)
+        let y_str = String(format: "%.3f", cam_position.y)
+        let z_str = String(format: "%.3f", cam_position.z)
+        uiView.text = "x=\(x_str),\ny=\(y_str),\nz=\(z_str)"
     }
 }
 
@@ -76,14 +82,15 @@ struct ARViewContainer: UIViewRepresentable {
     func updateUIView(_ uiView: ARView, context: Context) {}
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(self.cam_position)
+        return Coordinator(cam_position: $cam_position)
     }
     
+    // cf. https://qiita.com/kazy_dev/items/f0850d7ee22d84192639#swiftuisearchview%E3%81%A8coordinator%E3%81%AB%E3%82%82text%E3%82%92%E4%BF%9D%E6%8C%81%E3%81%99%E3%82%8B%E3%82%88%E3%81%86%E3%81%AB%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3%E3%81%A8%E5%87%A6%E7%90%86%E3%82%92%E8%BF%BD%E5%8A%A0
     class Coordinator: NSObject, ARSessionDelegate {
-        var cam_position: simd_float3
+        @Binding var cam_position: simd_float3
         
-        init(_ cam_position: simd_float3) {
-            self.cam_position = cam_position
+        init(cam_position: Binding<simd_float3>) {
+            _cam_position = cam_position
         }
         
         func session(_ session: ARSession, didUpdate frame: ARFrame) {
