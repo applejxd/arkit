@@ -1,4 +1,4 @@
-# ARKit-experiment
+# ARKit
 
 iOS の ARKit を利用して自己位置を取得するデモ
 
